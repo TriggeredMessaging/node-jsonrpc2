@@ -88,6 +88,14 @@ module.exports = function (classes){
         } else {
           request = http.request(options);
         }
+        
+        if(opts.timeout) {
+          request.setTimeout(opts.timeout);
+        }
+        
+        request.on("timeout", function () {
+          callback(new Error("Request Timed out"));
+        });
 
 
         // Report errors from the http client. This also prevents crashes since
