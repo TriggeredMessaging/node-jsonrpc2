@@ -16,13 +16,14 @@ module.exports = function (classes){
      * JSON-RPC Client.
      */
       Client = Endpoint.$define('Client', {
-      construct    : function ($super, port, host, user, password){
+      construct    : function ($super, port, host, user, password, headers){
         $super();
 
         this.port = port;
         this.host = host;
         this.user = user;
         this.password = password;
+        this.headers = headers;
         this.on('error', () => {});
       },
       _authHeader: function(headers){
@@ -61,7 +62,7 @@ module.exports = function (classes){
         
         var requestJSON = JSON.stringify(req);
 
-        var headers = {};
+        var headers = this.headers || {};
 
         this._authHeader(headers);
 
